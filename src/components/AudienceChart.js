@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Chart } from 'react-google-charts';
 import { getTotalAudience } from '../api/api';
+import '../css/Audience.css';
+
+
 
 const channelIds = [
   'UCP391YRAjSOdM_bwievgaZA',
@@ -58,21 +61,36 @@ const AudienceChart = () => {
   }
 
   return (
-    <div>
+    <div className="audience-chart">
       <h2>Audiência ao vivo</h2>
       <Chart
+      
         chartType="BarChart"
         data={data}
-        width="100%"
-        height="400px"
+        width="90%"
+        height="calc(100vh - 100px)" 
         options={{
-          hAxis: { title: 'Time' },
-          vAxis: { title: 'Audience' },
-          legend: { position: 'bottom' }
+          chartArea: { width: '70%', height: '80%' }, 
+          hAxis: {
+            title: 'Tempo',
+            textStyle: { color: '#FFFFFF' }, 
+            titleTextStyle: { color: '#FFFFFF' } 
+          },
+          vAxis: {
+            title: 'Audiência',
+            textStyle: { color: '#FFFFFF' }, 
+            titleTextStyle: { color: '#FFFFFF' } 
+          },
+          legend: {
+            position: 'bottom',
+            textStyle: { color: '#FFFFFF' }
+          },
+          backgroundColor: '#1c1c1c'
         }}
       />
     </div>
   );
 };
+
 
 export default AudienceChart;
