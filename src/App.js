@@ -2,6 +2,7 @@ import React from "react";
 import AudienceChart from './components/AudienceChart';
 import './App.css';
 import logo from "./img/logo.png";
+
 const App = () => {
   return (
     <div className="App">
@@ -11,6 +12,7 @@ const App = () => {
       </header>
       <main>
         <AudienceChart />
+        
       </main>
     </div>
   );
