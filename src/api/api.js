@@ -5,18 +5,18 @@ export const getLiveAudience = async (channelId) => {
     const channelResponse = await youtubeApi.get('/channels', {
       params: {
         id: channelId,
-        part: 'snippet'
-      }
+        part: 'snippet',
+      },
     });
-    const channelName = channelResponse.data.items[0]?.snippet.title || 'Unknown Channel';
+    const channelName = channelResponse.data.items[0]?.snippet.title || 'Canal desconhecido';
 
     const searchResponse = await youtubeApi.get('/search', {
       params: {
         channelId: channelId,
         type: 'video',
         eventType: 'live',
-        part: 'snippet'
-      }
+        part: 'snippet',
+      },
     });
     const liveVideos = searchResponse.data.items;
 
@@ -27,8 +27,8 @@ export const getLiveAudience = async (channelId) => {
       const videoDetailsResponse = await youtubeApi.get('/videos', {
         params: {
           id: videoId,
-          part: 'liveStreamingDetails'
-        }
+          part: 'liveStreamingDetails',
+        },
       });
       const liveDetails = videoDetailsResponse.data.items;
 
@@ -38,20 +38,21 @@ export const getLiveAudience = async (channelId) => {
       }
     }
 
-    return { channelName, totalViewers };
+    return { channelName, totalViewers: Math.round(totalViewers) };
   } catch (error) {
-    console.error(`Error fetching live audience for channel ${channelId}:`, error);
-    return { channelName: 'Unknown Channel', totalViewers: 0 };
+    console.error(`Erro ao encontrar canal ${channelId}:`, error);
+    return { channelName: 'Canal desconhecido', totalViewers: 0 };
   }
 };
 
 export const getTotalAudience = async (channelIds) => {
   try {
-    const promises = channelIds.map(id => getLiveAudience(id));
+    const promises = channelIds.map((id) => getLiveAudience(id));
     const audienceData = await Promise.all(promises);
     return audienceData;
   } catch (error) {
-    console.error('Error fetching total audience:', error);
-    return channelIds.map(id => ({ channelName: 'Unknown Channel', totalViewers: 0 }));
+    console.error('Erro ao encontrar canal', error);
+    return channelIds.map((id) => ({ channelName: 'Canal desconhecido', totalViewers: 0 }));
   }
 };
+
